@@ -1,0 +1,8 @@
+API Key Present: True
+API Key Length: 80
+Students with mobile numbers: 2
+  -> Should send SMS to 9701895032
+  -> Sending request to https://www.fast2sms.com/dev/bulkV2...
+  -> Response Status: 400
+  -> Response Body: {"status_code":999,"message":"You need to complete one transaction of 100 INR or more before using API route."}
+  -> Attendance >= 75%, no SMS needed.

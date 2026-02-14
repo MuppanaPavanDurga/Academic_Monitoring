@@ -1,0 +1,4 @@
+
+--- Testing MEDIUM Risk (Grey Area) ---
+Result: ''
+FAIL: Returned empty message for valid Medium Risk explanation.

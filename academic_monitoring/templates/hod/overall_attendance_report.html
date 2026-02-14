@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}Overall Attendance Report{% endblock %}
+
+{% block content %}
+<div class="page-container">
+
+    <h2 class="page-title">Overall Attendance Report</h2>
+
+    <!-- FILTER -->
+    <div class="faculty-card">
+        <div class="faculty-card-body">
+
+            <form method="get" style="display:flex; gap:10px; flex-wrap:wrap;">
+                <input type="text"
+                       name="department"
+                       placeholder="Department"
+                       value="{{ department }}"
+                       required>
+
+                <input type="text"
+                       name="section"
+                       placeholder="Section"
+                       value="{{ section }}"
+                       required>
+
+                <button class="action-btn">View Report</button>
+
+                {% if students %}
+                <a href="?department={{ department }}&section={{ section }}&download=1"
+                   class="action-btn outline">
+                    Download CSV
+                </a>
+                {% endif %}
+            </form>
+
+        </div>
+    </div>
+
+    {% if students %}
+    <div class="faculty-card" style="margin-top:20px;">
+        <div class="faculty-card-header">
+            Overall Attendance Summary
+        </div>
+
+        <div class="faculty-card-body">
+            <table class="faculty-table">
+                <thead>
+                    <tr>
+                        <th>Roll No</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Section</th>
+                        <th>Total Periods</th>
+                        <th>Present Periods</th>
+                        <th>Attendance %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in students %}
+                    <tr>
+                        <td>{{ s.roll_no }}</td>
+                        <td>{{ s.user.first_name }}</td>
+                        <td>{{ s.department }}</td>
+                        <td>{{ s.section }}</td>
+                        <td>{{ s.total_periods }}</td>
+                        <td>{{ s.present_periods }}</td>
+                        <td>
+                            <span style="font-weight:bold;
+                                {% if s.percentage >= 75 %}
+                                    color:green;
+                                {% else %}
+                                    color:red;
+                                {% endif %}
+                            ">
+                                {{ s.percentage }} %
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% elif department and section %}
+        <p style="margin-top:20px;">No attendance records found.</p>
+    {% endif %}
+
+</div>
+{% endblock %}

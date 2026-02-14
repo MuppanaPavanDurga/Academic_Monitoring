@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Upload Subject Marks{% endblock %}
+
+{% block content %}
+<div class="page-container">
+    <h2 class="page-title">Upload Subject Marks (CSV)</h2>
+
+    <form method="post" enctype="multipart/form-data" class="faculty-card">
+        {% csrf_token %}
+        <div class="faculty-card-body">
+            <input type="file" name="csv_file" required>
+            <button class="action-btn">Upload CSV</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

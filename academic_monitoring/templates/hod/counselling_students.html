@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Counselling – Students{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2 class="page-title">
+        Students Assigned to {{ faculty.user.username }}
+    </h2>
+
+    <div class="faculty-card">
+
+        <div class="faculty-card-header">
+            Student List
+        </div>
+
+        <div class="faculty-card-body">
+            {% if students %}
+                <table class="faculty-table">
+                    <thead>
+                        <tr>
+                            <th>Roll Number</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td>{{ student.roll_no }}</td>
+                            <td>
+                                <a href="{% url 'hod_counselling_remarks' student.id %}"
+                                   class="view-btn">
+                                    View Remarks
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="empty-text">No students assigned.</p>
+            {% endif %}
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% block title %}Faculty Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <div class="page-header">
+        <h2 class="page-title">
+            Faculty Dashboard – {{ faculty.department }}
+        </h2>
+    </div>
+
+    <div class="dashboard-grid">
+
+        <!-- All Students -->
+        <div class="card">
+            <div class="card-body" style="text-align:center;">
+                <div style="font-size:42px; margin-bottom:15px;">🎓</div>
+                <h4 style="margin:0 0 10px 0;">Department Students</h4>
+                <p style="color:var(--secondary); margin-bottom:20px;">View and manage all students in your department.
+                </p>
+                <a href="{% url 'faculty_students_list' %}" class="btn-primary">
+                    View Students
+                </a>
+            </div>
+        </div>
+
+        <!-- Counselling Students -->
+        <div class="card">
+            <div class="card-body" style="text-align:center;">
+                <div style="font-size:42px; margin-bottom:15px;">🧑‍🏫</div>
+                <h4 style="margin:0 0 10px 0;">Counselling</h4>
+                <p style="color:var(--secondary); margin-bottom:20px;">View assigned students and add remarks.</p>
+                <a href="{% url 'faculty_counselling_students' %}" class="btn-primary">
+                    View Counselling
+                </a>
+            </div>
+        </div>
+
+        <!-- Mentorship Requests -->
+        <div class="card">
+            <div class="card-body" style="text-align:center;">
+                <div style="font-size:42px; margin-bottom:15px;">🤝</div>
+                <h4 style="margin:0 0 10px 0;">Mentorship</h4>
+                <p style="color:var(--secondary); margin-bottom:20px;">Accept or reject student mentorship requests.</p>
+                <a href="{% url 'faculty_mentorship_requests' %}" class="btn-primary">
+                    View Requests
+                </a>
+            </div>
+        </div>
+
+        <!-- My Mentees -->
+        <div class="card">
+            <div class="card-body" style="text-align:center;">
+                <div style="font-size:42px; margin-bottom:15px;">👥</div>
+                <h4 style="margin:0 0 10px 0;">My Mentees</h4>
+                <p style="color:var(--secondary); margin-bottom:20px;">View students assigned to you as mentees.</p>
+                <a href="{% url 'faculty_mentees' %}" class="btn-primary">
+                    My Mentees
+                </a>
+            </div>
+        </div>
+
+        <!-- Skill Search -->
+        <div class="card">
+            <div class="card-body" style="text-align:center;">
+                <div style="font-size:42px; margin-bottom:15px;">🔍</div>
+                <h4 style="margin:0 0 10px 0;">Skill Search</h4>
+                <p style="color:var(--secondary); margin-bottom:20px;">Find students matching specific skills.</p>
+                <a href="{% url 'search_by_skill' %}" class="btn-primary">
+                    Search
+                </a>
+            </div>
+        </div>
+
+        <!-- Mark Attendance -->
+        <div class="card">
+            <div class="card-body" style="text-align:center;">
+                <div style="font-size:42px; margin-bottom:15px;">📝</div>
+                <h4 style="margin:0 0 10px 0;">Mark Attendance</h4>
+                <p style="color:var(--secondary); margin-bottom:20px;">Mark attendance period-wise.</p>
+                <a href="{% url 'mark_period_attendance' %}" class="btn-primary">
+                    Mark Attendance
+                </a>
+            </div>
+        </div>
+
+        <!-- Upload Mid Marks -->
+        <div class="card">
+            <div class="card-body" style="text-align:center;">
+                <div style="font-size:42px; margin-bottom:15px;">📑</div>
+                <h4 style="margin:0 0 10px 0;">Mid Marks</h4>
+                <p style="color:var(--secondary); margin-bottom:20px;">Upload Student Mid Marks.</p>
+                <a href="{% url 'upload_subject_marks' %}" class="btn-primary">
+                    Upload Marks
+                </a>
+            </div>
+        </div>
+
+        <!-- Alumni Connect -->
+        <div class="card">
+            <div class="card-body" style="text-align:center;">
+                <div style="font-size:42px; margin-bottom:15px;">🎓</div>
+                <h4 style="margin:0 0 10px 0;">Alumni Connect</h4>
+                <p style="color:var(--secondary); margin-bottom:20px;">Connect and chat with verified alumni.</p>
+                <a href="{% url 'faculty_alumni_list' %}" class="btn-primary">
+                    View Alumni
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Mentorship Chat{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2 class="page-title">Mentorship Chat</h2>
+
+    <!-- Chat Card -->
+    <div class="chat-card">
+
+        <!-- Messages -->
+        <div class="chat-messages">
+            {% for msg in messages %}
+                <div class="chat-message
+                    {% if msg.sender == request.user %}
+                        sent
+                    {% else %}
+                        received
+                    {% endif %}
+                ">
+                    <div class="chat-bubble">
+                        <div class="chat-text">
+                            {{ msg.message }}
+                        </div>
+                        <div class="chat-time">
+                            {{ msg.timestamp|date:"d M Y, H:i" }}
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="empty-text">No messages yet.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Input -->
+        <form method="post" class="chat-input">
+            {% csrf_token %}
+            <textarea
+                name="message"
+                rows="2"
+                placeholder="Type your message..."
+                required
+            ></textarea>
+            <button type="submit">Send</button>
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Search Students by Skill{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2 class="page-title">Search Students by Skill</h2>
+
+    <form method="get" class="faculty-card">
+        <div class="faculty-card-body">
+
+            <input type="text" name="skill"
+                   placeholder="Enter skill (e.g. Python)"
+                   value="{{ query }}"
+                   style="width:70%; padding:8px;">
+
+            <button class="action-btn">Search</button>
+
+            {% if students %}
+                <a href="?skill={{ query }}&download=1"
+                   class="action-btn outline"
+                   style="margin-left:10px;">
+                    Download CSV
+                </a>
+            {% endif %}
+
+        </div>
+    </form>
+
+    {% if students %}
+    <div class="faculty-card">
+        <div class="faculty-card-header">
+            Matching Students
+        </div>
+
+        <div class="faculty-card-body">
+            <table class="faculty-table">
+                <tr>
+                    <th>Roll No</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Skills</th>
+                </tr>
+
+                {% for s in students %}
+                <tr>
+                    <td>{{ s.student.roll_no }}</td>
+                    <td>{{ s.student.user.first_name }}</td>
+                    <td>{{ s.student.department }}</td>
+                    <td>{{ s.skills }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

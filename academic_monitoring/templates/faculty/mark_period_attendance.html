@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Mark Period Attendance{% endblock %}
+
+{% block content %}
+<div class="page-container">
+    <h2 class="page-title">Mark Period Attendance</h2>
+
+    <form method="post" class="faculty-card">
+        {% csrf_token %}
+        <div class="faculty-card-body">
+
+            <input type="text" name="department"
+                   placeholder="Department"
+                   value="{{ department }}" required>
+
+            <input type="text" name="section"
+                   placeholder="Section"
+                   value="{{ section }}" required>
+
+            <select name="period" required>
+                <option value="">Select Period</option>
+                {% for i in "12345678" %}
+                    <option value="{{ forloop.counter }}"
+                        {% if period|add:"0" == forloop.counter %}
+                            selected
+                        {% endif %}
+                    >
+                        Period {{ forloop.counter }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <button class="action-btn">Load Students</button>
+
+            {% if students %}
+            <table class="faculty-table" style="margin-top:20px;">
+                <tr>
+                    <th>Roll No</th>
+                    <th>Name</th>
+                    <th>Status</th>
+                </tr>
+
+                {% for s in students %}
+                <tr>
+                    <td>{{ s.roll_no }}</td>
+                    <td>{{ s.user.first_name }}</td>
+                    <td>
+                        <select name="status_{{ s.id }}">
+                            <option value="PRESENT">Present</option>
+                            <option value="ABSENT">Absent</option>
+                        </select>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <button class="action-btn"
+                    name="save_attendance"
+                    style="margin-top:10px;">
+                Save Attendance
+            </button>
+            {% endif %}
+
+        </div>
+    </form>
+</div>
+{% endblock %}

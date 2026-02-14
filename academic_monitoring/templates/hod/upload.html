@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}HOD – Bulk Student Prediction{% endblock %}
+
+{% block content %}
+
+<h2>Bulk Student Performance Prediction</h2>
+
+<div class="card">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="csv_file" required>
+        <br><br>
+        <button type="submit">Upload & Predict</button>
+    </form>
+</div>
+
+{% if low_risk %}
+<div class="card">
+    <h3 class="low">Low Risk Students</h3>
+    <table>
+        <tr>
+            <th>Roll No</th>
+            <th>Name</th>
+            <th>Predicted Score</th>
+            <th>Status</th>
+        </tr>
+        {% for s in low_risk %}
+        <tr>
+            <td>{{ s.roll_no }}</td>
+            <td>{{ s.name }}</td>
+            <td>{{ s.score|floatformat:2 }}</td>
+            <td>{{ s.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+
+{% if medium_risk %}
+<div class="card">
+    <h3 class="medium">Medium Risk Students</h3>
+    <table>
+        <tr>
+            <th>Roll No</th>
+            <th>Name</th>
+            <th>Predicted Score</th>
+            <th>Status</th>
+        </tr>
+        {% for s in medium_risk %}
+        <tr>
+            <td>{{ s.roll_no }}</td>
+            <td>{{ s.name }}</td>
+            <td>{{ s.score|floatformat:2 }}</td>
+            <td>{{ s.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+
+{% if high_risk %}
+<div class="card">
+    <h3 class="high">High Risk Students</h3>
+    <table>
+        <tr>
+            <th>Roll No</th>
+            <th>Name</th>
+            <th>Predicted Score</th>
+            <th>Status</th>
+        </tr>
+        {% for s in high_risk %}
+        <tr>
+            <td>{{ s.roll_no }}</td>
+            <td>{{ s.name }}</td>
+            <td>{{ s.score|floatformat:2 }}</td>
+            <td>{{ s.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+
+{% if not low_risk and not medium_risk and not high_risk %}
+<div class="card">
+    <p>No data to display. Please upload a valid CSV file.</p>
+</div>
+{% endif %}
+
+{% endblock %}

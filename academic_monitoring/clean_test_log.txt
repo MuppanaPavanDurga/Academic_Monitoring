@@ -1,0 +1,6 @@
+
+--- Testing LOW Risk ---
+Result: 🌟 Key strengths: Good Grades (CGPA) ⚠️ Areas to watch: Low Attendance
+
+--- Testing HIGH Risk ---
+Result: 📉 Risk increased due to: Low Academic Performance (CGPA) 📈 Mitigating factors: High Attendance

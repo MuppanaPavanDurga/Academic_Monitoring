@@ -1,0 +1,342 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOD | Student Semester Marks</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* ===== GLOBAL ===== */
+        body {
+            background: #f4f6fb;
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: #323438;
+            padding: 14px 30px;
+        }
+
+        .navbar-title {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* ===== PAGE ===== */
+        .page-container {
+            padding: 35px 45px;
+        }
+
+        .page-title {
+            font-weight: 600;
+            color: #2e3a59;
+            margin-bottom: 25px;
+        }
+
+        /* ===== FILTER BAR ===== */
+        .filter-card {
+            background: white;
+            padding: 22px;
+            border-radius: 14px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            margin-bottom: 35px;
+        }
+
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: end;
+        }
+
+        .filter-item {
+            display: flex;
+            flex-direction: column;
+            min-width: 190px;
+        }
+
+        .filter-item label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #6c757d;
+            margin-bottom: 6px;
+        }
+
+        .filter-item select {
+            height: 42px;
+            border-radius: 8px;
+            border: 1px solid #dcdfe6;
+            padding: 0 10px;
+            font-size: 14px;
+            background: white;
+            transition: 0.2s;
+        }
+
+        .filter-item select:focus {
+            border-color: #3e414a;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(78, 115, 223, .15);
+        }
+
+        .filter-button button {
+            height: 42px;
+            padding: 0 25px;
+            border: none;
+            border-radius: 8px;
+            background: #424449;
+            color: white;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .filter-button button:hover {
+            background: #3c3f48;
+        }
+
+        /* ===== TABLE CARD ===== */
+        .card {
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            padding: 15px;
+        }
+
+        /* ===== TABLE ===== */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table thead {
+            background: #eef2ff;
+        }
+
+        .data-table th {
+            padding: 14px;
+            text-align: center;
+            font-weight: 600;
+            color: #2e3a59;
+            font-size: 14px;
+        }
+
+        .data-table td {
+            padding: 12px;
+            text-align: center;
+            border-top: 1px solid #eceef5;
+            font-size: 14px;
+        }
+
+        .data-table tbody tr:hover {
+            background: #f8f9ff;
+            transition: 0.2s;
+        }
+
+        /* ===== GRADES ===== */
+        /* ===== NEUTRAL GRADE STYLE ===== */
+        .grade-pill {
+            display: inline-block;
+            min-width: 38px;
+            padding: 5px 10px;
+            border-radius: 6px;
+            background: #e9ecef;
+            color: #2e3a59;
+            font-weight: 600;
+            font-size: 13px;
+            border: 1px solid #d6d8db;
+        }
+
+
+        /* ===== CGPA ===== */
+        .cgpa {
+            font-weight: 700;
+            color: #4e73df;
+        }
+
+        /* ===== EMPTY ===== */
+        .empty-state {
+            text-align: center;
+            padding: 70px 20px;
+        }
+
+        .empty-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+        <span class="navbar-title">Academic Monitoring System — HOD Panel</span>
+    </div>
+
+    <div class="page-container">
+
+        <h2 class="page-title">Student Semester Marks</h2>
+
+        <!-- FILTER BAR -->
+
+        <div class="filter-card">
+            <form method="get" class="filter-bar">
+
+                
+                <div class="filter-item">
+                    <label>Year</label>
+                    <select name="year">
+                        <option value="">All</option>
+                        <option value="1st Year" {% if selected_year == '1st Year' %}selected{% endif %}>1st Year</option>
+                        <option value="2nd Year" {% if selected_year == '2nd Year' %}selected{% endif %}>2nd Year</option>
+                        <option value="3rd Year" {% if selected_year == '3rd Year' %}selected{% endif %}>3rd Year</option>
+                        <option value="4th Year" {% if selected_year == '4th Year' %}selected{% endif %}>4th Year</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label>Department</label>
+                    <select name="department">
+                        <option value="">All</option>
+                        {% for dept in departments %}
+                        <option value="{{ dept }}" {% if selected_dept == dept %}selected{% endif %}>{{ dept }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label>Section</label>
+                    <select name="section">
+                        <option value="">All</option>
+                        {% for sec in sections %}
+                        <option value="{{ sec }}" {% if selected_sec == sec %}selected{% endif %}>{{ sec }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label>Semester</label>
+                    <select name="semester">
+                        <option value="">Select</option>
+                        {% for i in "12345678"|make_list %}
+                        <option value="{{ i }}" {% if selected_sem == i %}selected{% endif %}>Semester {{ i }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-button" style="display:flex; gap:10px;">
+                    <button type="submit">Apply Filter</button>
+
+                    {% if students_data %}
+                    <button type="submit" name="download" value="csv" style="background:#2ecc71; border:none;">
+                        Download CSV
+                    </button>
+                    {% endif %}
+                </div>
+                
+
+            </form>
+        </div>
+
+        <!-- MARKS TABLE -->
+
+        {% if students_data %}
+
+        <div class="card">
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Roll No</th>
+                            <th>Name</th>
+                            {% for subject in subjects %}
+                            <th>{{ subject }}</th>
+                            {% endfor %}
+                            <th>SGPA</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for row in students_data %}
+                        <tr>
+
+                            <td>
+                                <a href="{% url 'hod_student_detail' row.student.id %}"
+                                    style="color:#4e73df;font-weight:600;">
+                                    {{ row.student.roll_no }}
+                                </a>
+                            </td>
+
+                            <td>{{ row.student.user.first_name }}</td>
+
+                            {% for subject in subjects %}
+
+                            <td>
+                                {% for mark in row.marks %}
+                                {% if mark.subject == subject %}
+                                {% if mark.grade == 'F' %}
+                                <span class="grade-pill">{{ mark.grade }}</span>
+                                {% elif mark.grade == 'S' or mark.grade == 'A+' %}
+                                {{ mark.grade }}
+                                {% else %}
+                                {{ mark.grade }}
+                                {% endif %}
+                                {% endif %}
+                                {% endfor %}
+                            </td>
+                            {% endfor %}
+
+                            <td class="cgpa">{{ row.semester.cgpa }}</td>
+
+                            <td>
+                                {% if row.semester.result == 'PASS' %}
+                                PASS
+                                {% else %}
+                                <span class="grade-pill">FAIL</span>
+                                {% endif %}
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {% elif selected_sem %}
+
+        <div class="empty-state">
+            <div class="empty-icon">📂</div>
+            <h3>No marks found</h3>
+            <p>No records available for the selected criteria.</p>
+        </div>
+
+        {% else %}
+
+        <div class="empty-state">
+            <div class="empty-icon">👆</div>
+            <h3>Select Criteria</h3>
+            <p>Please choose Year, Department, Section and Semester.</p>
+        </div>
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>

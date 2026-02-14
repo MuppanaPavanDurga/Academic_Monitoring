@@ -1,0 +1,18 @@
+=== XAI FULL TEST ===
+
+[LOW RISK]
+Input: {'CGPA': 0.15, 'Attendance %': 0.08, 'Failed Subjects': 0.01}
+Output: 🌟 Key strengths: Good Grades (CGPA), High Attendance
+
+[HIGH RISK]
+Input: {'CGPA': 0.25, 'Failed Subjects': 0.12, 'Attendance %': -0.05}
+Output: 📉 Risk increased due to: Low Academic Performance (CGPA), Subject Failures/Backlogs 📈 Mitigating factors: High Attendance
+
+[MEDIUM RISK]
+Input: {'CGPA': 0.04, 'Attendance %': -0.03, 'Mid Avg': 0.025}
+Output: 📉 Main concerns: Low Academic Performance (CGPA), Low Internal Marks 📈 Positive aspects: High Attendance
+
+[NEUTRAL/MEDIUM]
+Input: {'CGPA': 0.001, 'Attendance %': 0.002}
+Output: ⚠️ Your performance is balanced but requires consistency to improve.
+

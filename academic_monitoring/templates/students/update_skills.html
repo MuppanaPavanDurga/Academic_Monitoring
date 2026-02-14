@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block title %}Students List{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Skills</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background-color: #f1f5f9;
+            color: #1e293b;
+        }
+
+        /* ================= PAGE ================= */
+        .page-container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .page-title {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #0f172a;
+            text-align: center;
+        }
+
+        /* ================= CARD ================= */
+        .faculty-card {
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .faculty-card-body {
+            padding: 25px;
+        }
+
+        /* ================= LABEL ================= */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 15px;
+            color: #0f172a;
+        }
+
+        /* ================= TEXTAREA ================= */
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #cbd5f5;
+            font-size: 14px;
+            resize: vertical;
+            outline: none;
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+        }
+
+        /* ================= BUTTON ================= */
+        .action-btn {
+            padding: 12px 28px;
+            border-radius: 8px;
+            background: #2563eb;
+            color: #ffffff;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: #1e40af;
+        }
+
+        /* ================= HELPER TEXT ================= */
+        .helper-text {
+            margin-top: 6px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 600px) {
+            .faculty-card-body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page-container">
+
+    <h2 class="page-title">My Skills</h2>
+
+    <div class="faculty-card">
+        <div class="faculty-card-body">
+
+            <form method="post">
+                {% csrf_token %}
+
+                <label><b>Enter Skills (comma separated)</b></label>
+
+                <textarea name="skills"
+                          rows="4"
+                          placeholder="Python, ML, SQL">{{ skill_obj.skills }}</textarea>
+
+                <div class="helper-text">
+                    Example: Python, Machine Learning, SQL, Data Analysis
+                </div>
+
+                <div style="text-align:right; margin-top:15px;">
+                    <button class="action-btn">Save Skills</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
+{% endblock %}

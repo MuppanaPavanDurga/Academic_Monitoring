@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Faculty-wise Attendance{% endblock %}
+
+{% block content %}
+<div class="page-container">
+
+    <h2 class="page-title">Faculty-wise Attendance</h2>
+
+    <div class="faculty-card">
+        <div class="faculty-card-body">
+
+            <table class="faculty-table">
+                <thead>
+                    <tr>
+                        <th>Faculty Name</th>
+                        <th>Total Periods</th>
+                        <th>Attended Periods</th>
+                        <th>Attendance %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in attendance %}
+                    <tr>
+                        <td>
+                            {{ a.faculty__user__first_name|default:a.faculty__user__username }}
+                        </td>
+                        <td>{{ a.total_periods }}</td>
+                        <td>{{ a.present_periods }}</td>
+                        <td>
+                            <span style="
+                                font-weight:bold;
+                                {% if a.percentage >= 75 %}
+                                    color:green;
+                                {% else %}
+                                    color:red;
+                                {% endif %}
+                            ">
+                                {{ a.percentage }} %
+                            </span>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" style="text-align:center;">
+                            No attendance data available
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>  
+{% endblock %}

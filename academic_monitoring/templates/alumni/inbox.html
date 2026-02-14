@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}Messages{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <div class="page-header">
+        <h2 class="page-title">Messages</h2>
+    </div>
+
+    <div class="actions-grid" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+
+        <!-- Student Chats -->
+        <div class="card">
+            <div class="card-header">
+                Student Chats
+            </div>
+            <div class="card-body">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in student_chats %}
+                        <tr>
+                            <td>{{ c.student.user.first_name|default:c.student.user.username }}</td>
+                            <td>
+                                <a href="{% url 'alumni_chat_with_student' c.student.id %}" class="btn-primary"
+                                    style="font-size:12px; padding:4px 8px;">
+                                    Chat
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="2" style="text-align:center; padding:20px; color:var(--text-muted);">
+                                No student messages
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Faculty Chats -->
+        <div class="card">
+            <div class="card-header">
+                Faculty Chats
+            </div>
+            <div class="card-body">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Faculty Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in faculty_chats %}
+                        <tr>
+                            <td>Prof. {{ c.faculty.user.first_name|default:c.faculty.user.username }}</td>
+                            <td>
+                                <a href="{% url 'alumni_chat_with_faculty' c.faculty.id %}" class="btn-primary"
+                                    style="font-size:12px; padding:4px 8px;">
+                                    Chat
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="2" style="text-align:center; padding:20px; color:var(--text-muted);">
+                                No faculty messages
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <div style="margin-top:20px;">
+        <a href="{% url 'alumni_dashboard' %}" style="color:var(--primary); text-decoration:none; font-weight:500;">←
+            Back to Dashboard</a>
+    </div>
+
+</div>
+
+{% endblock %}

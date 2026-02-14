@@ -1,0 +1,20 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<h1>Upload Students CSV</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="csv_file" required>
+    <br><br>
+    <input type="submit" value="Upload">
+</form>
+
+<hr>
+
+<p>CSV format:</p>
+roll_no,name,department,section,email,mobile_no
+22ME1A05H5,Rahul Kumar,CSE,A,rahul@example.com,9876543210
+22ME1A05H6,Anita Sharma,CSE,B,anita@example.com,9123456789
+</pre>
+{% endblock %}

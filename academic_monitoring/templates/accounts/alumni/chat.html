@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Alumni Chat{% endblock %}
+
+{% block content %}
+<h2>Chat with {{ alumni.alumni_request.full_name }}</h2>
+
+<div style="border:1px solid #ddd; padding:15px; height:350px; overflow-y:auto; margin-bottom:15px;">
+    {% for m in messages %}
+        <div style="margin-bottom:10px;">
+            <strong>{{ m.sender }}:</strong>
+            {{ m.message }}
+            <div style="font-size:12px; color:gray;">
+                {{ m.timestamp|date:"d M Y H:i" }}
+            </div>
+        </div>
+    {% empty %}
+        <p>No messages yet.</p>
+    {% endfor %}
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <textarea name="message" rows="3" style="width:100%;" required></textarea>
+    <br><br>
+    <button type="submit">Send</button>
+</form>
+{% endblock %}

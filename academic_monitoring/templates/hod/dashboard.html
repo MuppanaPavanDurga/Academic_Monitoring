@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block title %}HOD Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <div class="page-header">
+        <h2 class="page-title">HOD Dashboard</h2>
+
+        <div class="header-actions">
+            <!-- Alert Actions Panel -->
+            <form method="post" action="{% url 'send_attendance_alerts' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="action-btn">
+                    📩 Send Attendance Alerts
+                </button>
+            </form>
+
+            <form method="post" action="{% url 'send_risk_alerts' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="action-btn" style="background:var(--danger);">
+                    ⚠️ Send Risk Alerts
+                </button>
+            </form>
+            <form method="post" action="{% url 'send_attendance_sms' %}" style="display:inline;">
+                {% csrf_token %}
+                <button class="action-btn" style="background:#0ea5e9;">
+                    📱 Send Attendance SMS Alerts
+                </button>
+            </form>
+
+            <form method="post" action="{% url 'send_apology_email' %}" style="display:inline; margin-left: 10px;">
+                {% csrf_token %}
+                <button type="submit" class="action-btn" style="background:#64748b;"
+                    onclick="return confirm('Are you sure you want to send an APOLOGY email to ALL students?');">
+                    🙏 Send Apology
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+
+        <!-- Bulk Prediction -->
+        <div class="card">
+            <div class="card-body" style="text-align:center;">
+                <div style="font-size:42px; margin-bottom:15px;">📊</div>
+                <h4 style="margin:0 0 10px 0;">Bulk Prediction</h4>
+                <p style="color:var(--secondary); margin-bottom:20px;">Upload student data and predict academic risk
+                    levels in bulk.</p>
+                <a href="{% url 'hod_upload' %}" class="btn-primary">
+                    Go to Bulk Prediction
+                </a>
+            </div>
+        </div>
+
+        <!-- Counselling -->
+        <div class="card">
+            <div class="card-body" style="text-align:center;">
+                <div style="font-size:42px; margin-bottom:15px;">🧑‍🏫</div>
+                <h4 style="margin:0 0 10px 0;">Counselling</h4>
+                <p style="color:var(--secondary); margin-bottom:20px;">Assign faculty and monitor student counselling
+                    remarks.</p>
+                <a href="{% url 'hod_counselling_faculty' %}" class="btn-primary">
+                    Go to Counselling
+                </a>
+            </div>
+        </div>
+
+        <!-- Students List -->
+        <div class="card">
+            <div class="card-body" style="text-align:center;">
+                <div style="font-size:42px; margin-bottom:15px;">🎓</div>
+                <h4 style="margin:0 0 10px 0;">Students List</h4>
+                <p style="color:var(--secondary); margin-bottom:20px;">View and manage student profiles and academic
+                    details.</p>
+                <a href="{% url 'hod_students_list' %}" class="btn-primary">
+                    View Students
+                </a>
+            </div>
+        </div>
+
+        <!-- Monthly Attendance Report -->
+        <div class="card">
+            <div class="card-body" style="text-align:center;">
+                <div style="font-size:42px; margin-bottom:15px;">📅</div>
+                <h4 style="margin:0 0 10px 0;">Monthly Report</h4>
+                <p style="color:var(--secondary); margin-bottom:20px;">View period-wise monthly attendance reports.</p>
+                <a href="{% url 'monthly_attendance_report' %}" class="btn-primary">
+                    View Report
+                </a>
+            </div>
+        </div>
+
+        <!-- Overall Attendance Report -->
+        <div class="card">
+            <div class="card-body" style="text-align:center;">
+                <div style="font-size:42px; margin-bottom:15px;">📈</div>
+                <h4 style="margin:0 0 10px 0;">Overall Report</h4>
+                <p style="color:var(--secondary); margin-bottom:20px;">View cumulative attendance reports of students.
+                </p>
+                <a href="{% url 'overall_attendance_report' %}" class="btn-primary">
+                    View Report
+                </a>
+            </div>
+        </div>
+
+        <!-- Assign Counsellor -->
+        <div class="card">
+            <div class="card-body" style="text-align:center;">
+                <div style="font-size:42px; margin-bottom:15px;">🔗</div>
+                <h4 style="margin:0 0 10px 0;">Assign Counsellor</h4>
+                <p style="color:var(--secondary); margin-bottom:20px;">Link students to faculty members.</p>
+                <a href="{% url 'assign_counsellor' %}" class="btn-primary">
+                    Assign Now
+                </a>
+            </div>
+        </div>
+
+        <!-- Upload Marks -->
+        <div class="card">
+            <div class="card-body" style="text-align:center;">
+                <div style="font-size:42px; margin-bottom:15px;">📝</div>
+                <h4 style="margin:0 0 10px 0;">Upload Marks</h4>
+                <p style="color:var(--secondary); margin-bottom:20px;">Upload semester marks via CSV.</p>
+                <a href="{% url 'upload_marks_csv' %}" class="btn-primary">
+                    Upload Marks
+                </a>
+                <a href="{% url 'hod_marks_list' %}" class="btn-primary"
+                    style="margin-top:10px; background:var(--secondary);">
+                    View Marks
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

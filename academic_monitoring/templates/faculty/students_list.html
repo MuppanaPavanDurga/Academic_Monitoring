@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block title %}Students List{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <!-- Header + Search -->
+    <div class="page-header">
+        <h2 class="page-title">
+            Students – {{ faculty.department }} Department
+        </h2>
+
+        <div style="display:flex; gap:10px;">
+            <select id="yearFilter" class="search-input" style="width:150px;" onchange="searchStudents()">
+                <option value="">All Years</option>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+            </select>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search by Roll No or Name"
+                onkeyup="searchStudents()">
+        </div>
+
+    </div>
+
+    <!-- Students Table -->
+    <div class="faculty-card">
+        <div class="faculty-card-header">
+            Department Students
+        </div>
+
+        <div class="faculty-card-body">
+            <table class="faculty-table">
+                <thead>
+                    <tr>
+                        <th>Roll No</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Year</th>
+                        <th>Section</th>
+
+
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="studentsTableBody">
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student.roll_no }}</td>
+                        <td>{{ student.user.first_name }}</td>
+                        <td>{{ student.department }}</td>
+                        <td>{{ student.pursuing_year }}</td>
+                        <td>{{ student.section }}</td>
+
+                        <td>
+                            <a href="{% url 'faculty_student_detail' student.id %}" class="view-btn">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="empty-text">
+                            No students found
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Back Link -->
+    <div class="back-link">
+        <a href="{% url 'faculty_dashboard' %}">
+            ← Back to Dashboard
+        </a>
+    </div>
+
+</div>
+
+<!-- 🔍 LIVE SEARCH SCRIPT -->
+<script>
+    function searchStudents() {
+        const q = document.getElementById("searchInput").value;
+        const year = document.getElementById("yearFilter").value;
+
+        fetch(`/faculty/students/search/?q=${q}&year=${year}`)
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.getElementById("studentsTableBody");
+
+                tbody.innerHTML = "";
+
+                if (data.students.length === 0) {
+                    tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="empty-text">
+                            No students found
+                        </td>
+                    </tr>
+                `;
+                    return;
+                }
+
+                data.students.forEach(s => {
+                    tbody.innerHTML += `
+                    <tr>
+                        <td>${s.roll_no}</td>
+                        <td>${s.name}</td>
+                        <td>${s.department}</td>
+                        <td>${s.year}</td>
+                        <td>${s.section}</td>
+
+
+                        <td>
+                            <a href="/faculty/students/${s.id}/" class="view-btn">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                `;
+                });
+            });
+    }
+</script>
+
+{% endblock %}

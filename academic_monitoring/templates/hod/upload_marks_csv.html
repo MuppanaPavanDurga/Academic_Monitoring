@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block title %}Students List{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Marks</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background-color: #f1f5f9;
+            color: #1e293b;
+        }
+
+        /* ================= PAGE ================= */
+        .page-container {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 20px;
+        }
+
+        .page-title {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #0f172a;
+            text-align: center;
+        }
+
+        /* ================= FLASH MESSAGES ================= */
+        .alert {
+            padding: 14px 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: #dcfce7;
+            color: #166534;
+            border-left: 5px solid #22c55e;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 5px solid #ef4444;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            color: #92400e;
+            border-left: 5px solid #f59e0b;
+        }
+
+        .alert-info {
+            background: #e0f2fe;
+            color: #075985;
+            border-left: 5px solid #38bdf8;
+        }
+
+        /* ================= CARD ================= */
+        .faculty-card {
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .faculty-card-body {
+            padding: 30px;
+            text-align: center;
+        }
+
+        /* ================= FILE INPUT ================= */
+        input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            border: 2px dashed #cbd5f5;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            background: #f8fafc;
+        }
+
+        input[type="file"]:hover {
+            border-color: #2563eb;
+            background: #f1f5ff;
+        }
+
+        /* ================= BUTTON ================= */
+        .action-btn {
+            padding: 12px 30px;
+            border-radius: 8px;
+            background: #2563eb;
+            color: #ffffff;
+            border: none;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: #1e40af;
+        }
+
+        /* ================= INFO TEXT ================= */
+        .info-text {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #475569;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page-container">
+    <h2 class="page-title">Upload Student Marks (CSV)</h2>
+
+    <!-- ================= FLASH MESSAGES ================= -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert 
+                {% if message.tags == 'success' %}alert-success{% endif %}
+                {% if message.tags == 'error' %}alert-error{% endif %}
+                {% if message.tags == 'warning' %}alert-warning{% endif %}
+                {% if message.tags == 'info' %}alert-info{% endif %}
+            ">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- ================= UPLOAD FORM ================= -->
+    <form method="post" enctype="multipart/form-data" class="faculty-card">
+        {% csrf_token %}
+        <div class="faculty-card-body">
+
+            <input type="file" name="csv_file" accept=".csv" required>
+
+            <button class="action-btn">Upload CSV</button>
+
+            <p class="info-text">
+                Upload a CSV file containing student marks for bulk processing.
+            </p>
+
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
+{% endblock %}

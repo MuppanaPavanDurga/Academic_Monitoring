@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Mid Marks{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2 class="page-title">Mid Examination Marks</h2>
+
+    {% if semesters %}
+        {% for sem, subjects in semesters.items %}
+        <div class="faculty-card" style="margin-bottom:30px;">
+
+            <div class="faculty-card-header">
+                Semester {{ sem }}
+            </div>
+
+            <div class="faculty-card-body">
+
+                {# ---- LOOP MID NUMBERS (Assuming 2 mids) ---- #}
+                {% for mid_no in "12" %}
+
+                <h4 style="margin-top:20px; margin-bottom:10px;">
+                    Mid {{ mid_no }}
+                </h4>
+
+                <table class="faculty-table" style="margin-bottom:20px;">
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Marks Obtained</th>
+                            <th>Assignment</th>
+                            <th>Online Quiz</th>
+                            <th>Overall Internal</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for subject, mids in subjects.items %}
+                            {% if mids.mid_no %}
+                                {# dummy to avoid error #}
+                            {% endif %}
+
+                            {% for m_no, m in mids.items %}
+                                {% if m_no|stringformat:"s" == mid_no %}
+                                <tr>
+                                    <td>{{ subject }}</td>
+                                    <td>{{ m.gained_marks }} / {{ m.actual_marks }}</td>
+                                    <td>{{ m.assignment_marks }} / {{m.actual_assignment}}</td>
+                                    <td>{{m.online_quiz}} / {{m.actual_online}}</td>
+                                    <!-- <td>{{ m.actual_marks }}</td> -->
+                                    <td>{{ m.overall_internal }} / {{m.actual_internal}}</td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                {% endfor %}
+
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p class="empty-text">
+            No mid marks uploaded yet.
+        </p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

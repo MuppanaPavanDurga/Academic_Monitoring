@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}My Mentees{% endblock %}
+
+{% block content %}
+<h2>My Mentees</h2>
+
+<table>
+    <tr>
+        <th>Roll No</th>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Section</th>
+        <th>Chat</th>
+    </tr>
+
+    {% for m in mentees %}
+    <tr>
+        <td>{{ m.student.roll_no }}</td>
+        <td>{{ m.student.user.first_name|default:m.student.user.username }}</td>
+        <td>{{ m.student.department }}</td>
+        <td>{{ m.student.section }}</td>
+        <td>
+            <a href="{% url 'mentorship_chat' m.id %}">
+                <button>Open Chat</button>
+            </a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">No mentees assigned yet.</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

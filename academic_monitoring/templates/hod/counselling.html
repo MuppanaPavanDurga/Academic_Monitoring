@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}HOD – Counselling Overview{% endblock %}
+
+{% block content %}
+
+<h2>Counselling Overview</h2>
+
+<!-- FACULTY LIST -->
+<div class="card">
+    <h3>Available Faculty</h3>
+    <ul>
+        {% for faculty in faculties %}
+            <li>
+                <a href="{% url 'hod_counselling_detail' faculty.id %}">
+                    {{ faculty.user.username }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- STUDENT LIST (ONLY WHEN FACULTY SELECTED) -->
+{% if selected_faculty %}
+<div class="card">
+    <h3>Students Assigned to {{ selected_faculty.user.username }}</h3>
+
+    {% if students_data %}
+        {% for item in students_data %}
+            <div style="margin-bottom:15px;">
+                <b>Student:</b> {{ item.student.roll_no }}
+
+                <ul>
+                    {% for r in item.remarks %}
+                        <li>
+                            <b>{{ r.date }}</b> – {{ r.remark }}
+                        </li>
+                    {% empty %}
+                        <li>No counselling remarks yet.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No students assigned.</p>
+    {% endif %}
+</div>
+{% else %}
+<div class="card">
+    <p>Select a faculty to view counselling details.</p>
+</div>
+{% endif %}
+
+{% endblock %}

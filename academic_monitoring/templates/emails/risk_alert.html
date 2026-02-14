@@ -1,0 +1,30 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<p>Dear <strong>{{ student.user.first_name }}</strong>,</p>
+
+<div class="alert-box {% if risk.risk_level == 'HIGH' %}alert-danger{% else %}alert-warning{% endif %}">
+    ⚠️ <strong>Academic Risk Alert: {{ risk.risk_level }}</strong>
+</div>
+
+<p>
+    Our academic monitoring system has flagged your profile with a <strong>{{ risk.risk_level }} risk level</strong>
+    based on your recent performance.
+</p>
+
+<div style="background-color:#f1f5f9; padding:20px; border-radius:6px; margin:20px 0;">
+    <p style="margin:0 0 10px 0; font-weight:600; color:#334155;">Analysis Report:</p>
+    <p style="margin:0; font-style:italic; color:#475569;">
+        "{{ message }}"
+    </p>
+</div>
+
+<p>
+    We strongly recommend you to meet your faculty mentor to discuss a plan for improvement.
+</p>
+
+<p style="margin-top:30px;">
+    Regards,<br>
+    <strong>Head of Department</strong>
+</p>
+{% endblock %}

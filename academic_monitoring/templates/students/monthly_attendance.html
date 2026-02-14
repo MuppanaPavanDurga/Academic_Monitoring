@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block title %}Monthly Attendance{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2 class="page-title">Monthly Attendance</h2>
+    <style>
+        .attendance-table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.attendance-table th,
+.attendance-table td {
+    text-align: center;
+    border: 1px solid #e2e8f0;
+    padding: 10px 0;
+}
+
+.attendance-table th:first-child,
+.attendance-table td:first-child {
+    width: 160px;
+}
+
+.status-present {
+    color: #166534;
+    font-weight: 700;
+}
+
+.status-absent {
+    color: #991b1b;
+    font-weight: 700;
+}
+
+.status-empty {
+    color: #94a3b8;
+    font-weight: 600;
+}
+
+    </style>
+    <!-- FILTER FORM -->
+    <div class="faculty-card">
+        <div class="faculty-card-body">
+            <form method="get" style="display:flex; gap:10px; align-items:center;">
+                
+                <input type="text"
+       name="month"
+       placeholder="Month (1–12)"
+       pattern="^(1[0-2]|[1-9])$"
+       title="Enter a valid month between 1 and 12"
+       {% if month %}value="{{ month }}"{% endif %}
+       required>
+
+
+<input type="text"
+       name="year"
+       placeholder="Year (e.g. 2026)"
+       pattern="^(19|20)\d{2}$"
+       title="Enter a valid year (e.g. 2026)"
+       {% if year %}value="{{ year }}"{% endif %}
+       required>
+
+
+
+
+
+                <button class="action-btn">View</button>
+            </form>
+        </div>
+    </div>
+
+    {% if attendance_rows %}
+
+    <!-- SUMMARY -->
+    <div class="faculty-card" style="margin-top:20px;">
+        <div class="faculty-card-body summary-grid">
+            <p><b>Total Periods:</b> {{ total }}</p>
+            <p><b>Present Periods:</b> {{ present }}</p>
+            <p>
+                <b>Attendance %:</b>
+                <span style="font-weight:bold;
+                    {% if percentage >= 75 %}
+                        color:green;
+                    {% else %}
+                        color:red;
+                    {% endif %}
+                ">
+                    {{ percentage }} %
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <!-- ATTENDANCE TABLE -->
+    <div class="faculty-card" style="margin-top:20px;">
+        <div class="faculty-card-header">
+            Period-wise Attendance
+        </div>
+
+        <div class="faculty-card-body">
+            <table class="faculty-table attendance-table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>P1</th>
+            <th>P2</th>
+            <th>P3</th>
+            <th>P4</th>
+            <th>P5</th>
+            <th>P6</th>
+            <th>P7</th>
+            <th>P8</th>
+        </tr>
+    </thead>
+
+    <tbody>
+{% for row in attendance_rows %}
+<tr>
+    <td>{{ row.date }}</td>
+
+    {% for value in row.periods %}
+        <td>
+            {% if value == "P" %}
+                <span class="status-present">P</span>
+            {% elif value == "A" %}
+                <span class="status-absent">A</span>
+            {% else %}
+                <span class="status-empty">-</span>
+            {% endif %}
+        </td>
+    {% endfor %}
+</tr>
+{% endfor %}
+</tbody>
+
+</table>
+
+        </div>
+    </div>
+
+    {% else %}
+        {% if month and year %}
+        <p style="margin-top:20px;">
+            No attendance records found for the selected month.
+        </p>
+        {% endif %}
+    {% endif %}
+
+</div>
+
+{% endblock %}

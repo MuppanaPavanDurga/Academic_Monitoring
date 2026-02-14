@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Academic Monitoring & Mentorship System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        /* BODY */
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background-color: #ffffff;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .navbar h2 {
+            color: #444;
+        }
+
+        .nav-links a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #000;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            background-color: #eeeeee;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .hero h1 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #555;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .hero-buttons {
+            margin-top: 30px;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+            padding: 12px 26px;
+            text-decoration: none;
+            margin: 10px;
+            border-radius: 5px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: #555;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #333;
+        }
+
+        .btn-secondary {
+            background-color: #fff;
+            color: #555;
+            border: 1px solid #999;
+        }
+
+        .btn-secondary:hover {
+            background-color: #ddd;
+        }
+
+        /* FEATURES */
+        .features {
+            padding: 70px 40px;
+            background-color: #ffffff;
+        }
+
+        .features h2 {
+            text-align: center;
+            margin-bottom: 50px;
+            color: #444;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .feature-card {
+            background-color: #f7f7f7;
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .feature-card p {
+            color: #555;
+        }
+
+        /* ALUMNI SECTION */
+        .about {
+            background-color: #eeeeee;
+            padding: 70px 20px;
+        }
+
+        .about-container {
+            max-width: 500px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .about-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #444;
+        }
+
+        .about-container input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #bbb;
+        }
+
+        .about-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: #555;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .about-container button:hover {
+            background-color: #333;
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: #ffffff;
+            text-align: center;
+            padding: 18px;
+            border-top: 1px solid #ddd;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <h2>Academic Monitoring System</h2>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/login/">Login</a>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+        <h1>Intelligent Academic Monitoring & Mentorship</h1>
+        <p>
+            Predict student performance early, empower faculty with insights,
+            and enable effective mentorship through a smart academic platform.
+        </p>
+        <div class="hero-buttons">
+            <a href="/login/" class="btn-primary">Get Started</a>
+            <a href="#features" class="btn-secondary">Learn More</a>
+        </div>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="features" id="features">
+        <h2>Key Features</h2>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>📊 Performance Prediction</h3>
+                <p>ML models analyze attendance, marks, and past data to identify at-risk students early.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>👨‍🏫 Faculty Mentorship</h3>
+                <p>Students request mentorship and receive structured academic guidance.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>💬 Secure Chat</h3>
+                <p>One-to-one communication between students and mentors after approval.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>📈 Visual Dashboards</h3>
+                <p>Role-based dashboards for Students, Faculty, and HODs.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ALUMNI -->
+    <div class="about">
+        <div class="about-container">
+            <h2>Alumni Registration</h2>
+
+            <form method="post" action="{% url 'alumni_request' %}">
+                {% csrf_token %}
+                <input type="text" name="full_name" placeholder="Full Name" required>
+                <input type="text" name="roll_no" placeholder="Roll Number" required>
+                <input type="text" name="department" placeholder="Department" required>
+                <input type="number" name="graduation_year" placeholder="Graduation Year" required>
+
+                <button type="submit">Submit Alumni Request</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        © 2026 Academic Monitoring & Mentorship System | Final Year Project
+    </div>
+
+</body>
+
+</html>

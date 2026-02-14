@@ -1,0 +1,8 @@
+
+--- GOOD STUDENT ---
+Prediction: LOW (Prob: 0.95)
+Explanation: {'CGPA': 0.1824, 'Attendance %': -0.0205, 'Failed Subjects': -0.1619, 'Mid Avg': 0.0, 'Total Subjects': 0.0}
+
+--- BAD STUDENT ---
+Prediction: HIGH (Prob: 0.99)
+Explanation: {'CGPA': -0.0814, 'Attendance %': -0.2034, 'Failed Subjects': 0.2848, 'Mid Avg': 0.0, 'Total Subjects': 0.0}

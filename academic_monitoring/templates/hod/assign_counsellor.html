@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+{% block title %}Students List{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assign Counselling Faculty</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background-color: #f1f5f9;
+            color: #1e293b;
+        }
+
+        /* ================= PAGE ================= */
+        .page-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .page-title {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #0f172a;
+            text-align: center;
+        }
+
+        /* ================= CARD ================= */
+        .faculty-card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .faculty-card-header {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 14px 22px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .faculty-card-body {
+            padding: 25px;
+        }
+
+        /* ================= FORM ================= */
+        label {
+            display: block;
+            margin: 12px 0 6px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #0f172a;
+        }
+
+        select,
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #cbd5f5;
+            font-size: 14px;
+            background: #ffffff;
+        }
+
+        select:focus,
+        input[type="file"]:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+        }
+
+        /* ================= BUTTON ================= */
+        .action-btn {
+            margin-top: 18px;
+            padding: 12px 28px;
+            border-radius: 8px;
+            background: #2563eb;
+            color: #ffffff;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: #1e40af;
+        }
+
+        /* ================= CSV INFO ================= */
+        .csv-info {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #334155;
+            margin-bottom: 15px;
+            border-left: 4px solid #38bdf8;
+        }
+
+        pre {
+            margin: 6px 0 0;
+            background: #0f172a;
+            color: #ffffff;
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            overflow-x: auto;
+        }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 600px) {
+            .faculty-card-body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page-container">
+
+    <h2 class="page-title">Assign Counselling Faculty</h2>
+
+    <!-- MANUAL ASSIGNMENT -->
+    <div class="faculty-card">
+        <div class="faculty-card-header">Manual Assignment</div>
+
+        <div class="faculty-card-body">
+            <form method="post">
+                {% csrf_token %}
+
+                <label>Faculty</label>
+                <select name="faculty" required>
+                    {% for f in faculties %}
+                        <option value="{{ f.id }}">
+                            {{ f.user.get_full_name }} ({{ f.user.username }})
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <label>Student</label>
+                <select name="student" required>
+                    {% for s in students %}
+                        <option value="{{ s.id }}">
+                            {{ s.roll_no }} - {{ s.user.first_name }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <button class="action-btn">Assign Faculty</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- CSV UPLOAD -->
+    <div class="faculty-card">
+        <div class="faculty-card-header">Bulk Assignment (CSV)</div>
+
+        <div class="faculty-card-body">
+
+            <div class="csv-info">
+                <b>CSV Format:</b>
+                <pre>Faculty name,Student RollNo</pre>
+            </div>
+
+            <form method="post"
+                  enctype="multipart/form-data"
+                  action="{% url 'assign_counsellor_csv' %}">
+                {% csrf_token %}
+
+                <input type="file" name="csv_file" accept=".csv" required>
+
+                <button class="action-btn">Upload CSV</button>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+{% block title %}Students List{% endblock %}
+
+{% block content %}
+<!-- Semster Marks -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Marks</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background-color: #f1f5f9;
+            color: #1e293b;
+        }
+
+        /* ================= PAGE ================= */
+        .page-container {
+            max-width: 1050px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .page-title {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #0f172a;
+            text-align: center;
+        }
+
+        /* ================= CARD ================= */
+        .faculty-card {
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .faculty-card-header {
+            background: linear-gradient(90deg, #2563eb, #38bdf8);
+            color: #ffffff;
+            padding: 15px 22px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .faculty-card-body {
+            padding: 22px;
+        }
+
+        /* ================= SUMMARY ================= */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .summary-box {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 14px;
+            color: #334155;
+            border-left: 4px solid #2563eb;
+        }
+
+        .summary-box b {
+            color: #0f172a;
+        }
+
+        /* ================= TABLE ================= */
+        .faculty-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .faculty-table th {
+            background: #f1f5f9;
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+            color: #0f172a;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .faculty-table td {
+            padding: 12px;
+            font-size: 14px;
+            color: #334155;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .faculty-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* ================= STATUS BADGES ================= */
+        .status-pass {
+            color: #166534;
+            font-weight: 600;
+        }
+
+        .status-fail {
+            color: #991b1b;
+            font-weight: 600;
+        }
+
+        /* ================= EMPTY ================= */
+        .empty-text {
+            text-align: center;
+            padding: 30px;
+            font-size: 15px;
+            color: #64748b;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 768px) {
+            .faculty-table tr {
+                display: block;
+                background: #f8fafc;
+                margin-bottom: 15px;
+                border-radius: 10px;
+                padding: 10px;
+            }
+
+            .faculty-table td {
+                display: block;
+                border: none;
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page-container">
+    <h2 class="page-title">Semester-wise Marks</h2>
+
+    {% for sem in semesters %}
+    <div class="faculty-card">
+        <div class="faculty-card-header">
+            Semester {{ sem.semester_no }}
+        </div>
+
+        <div class="faculty-card-body">
+
+            <!-- SUMMARY -->
+            <div class="summary-grid">
+                <div class="summary-box"><b>Total Subjects:</b> {{ sem.total_subjects }}</div>
+                <div class="summary-box"><b>Pass Count:</b> {{ sem.pass_count }}</div>
+                <div class="summary-box"><b>Fail Count:</b> {{ sem.fail_count }}</div>
+                <div class="summary-box"><b>CGPA:</b> {{ sem.cgpa }}</div>
+            </div>
+
+            <!-- TABLE -->
+            <table class="faculty-table">
+                <tr>
+                    <th>Subject</th>
+                    <th>Grade</th>
+                    <th>Status</th>
+                </tr>
+
+                {% for s in sem.subjectmark_set.all %}
+                <tr>
+                    <td>{{ s.subject_name }}</td>
+                    <td>{{ s.grade }}</td>
+                    <td>
+                        {% if s.grade == "F" %}
+                            <span class="status-fail">Fail</span>
+                        {% else %}
+                            <span class="status-pass">Pass</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+        </div>
+    </div>
+    {% empty %}
+        <div class="empty-text">
+            No marks uploaded yet.
+        </div>
+    {% endfor %}
+</div>
+
+</body>
+</html>
+{% endblock %}

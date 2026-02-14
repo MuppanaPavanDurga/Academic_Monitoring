@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Chat{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <div class="page-header">
+        <h2 class="page-title">
+            {% if is_alumni %}
+            Chat with Prof. {{ target_faculty.user.first_name|default:target_faculty.user.username }}
+            {% else %}
+            Chat with {{ alumni.alumni_request.full_name }}
+            {% endif %}
+        </h2>
+        <a href="javascript:history.back()" style="font-size:14px; text-decoration:none; color:var(--primary);">←
+            Back</a>
+    </div>
+
+    <!-- Chat Interface -->
+    <div class="chat-card">
+
+        <!-- Messages Area -->
+        <div class="chat-messages" id="messageArea">
+            {% for m in messages %}
+            <div class="chat-message {% if m.sender == sender_role %}sent{% else %}received{% endif %}">
+                <div class="chat-bubble">
+                    <div class="chat-text">
+                        {{ m.message }}
+                    </div>
+                    <div class="chat-time">
+                        {{ m.timestamp|date:"d M, H:i" }}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div style="text-align:center; color:var(--text-muted); margin-top:50px;">
+                <div style="font-size:40px; margin-bottom:10px;">👋</div>
+                <p>No messages yet. Start the conversation!</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Input Area -->
+        <form method="post" class="chat-input">
+            {% csrf_token %}
+            <textarea name="message" rows="1" placeholder="Type your message..." required
+                oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"></textarea>
+            <button type="submit">Send</button>
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+    // Auto-scroll to bottom of chat
+    const messageArea = document.getElementById('messageArea');
+    messageArea.scrollTop = messageArea.scrollHeight;
+</script>
+
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Alumni Connect (Faculty){% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <div class="page-header">
+        <h2 class="page-title">Alumni Connect</h2>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="card">
+        <div class="card-body">
+            <form method="get" style="display:flex; gap:10px;">
+                <input type="text" name="q" value="{{ query }}" placeholder="Search by Name, Roll No, or Company"
+                    style="flex:1; padding:10px; border:1px solid var(--border); border-radius:6px; font-size:14px;">
+                <button type="submit" class="btn-primary">Search</button>
+                {% if query %}
+                <a href="{% url 'faculty_alumni_list' %}" class="btn-outline"
+                    style="padding:8px 16px; border-radius:6px; text-decoration:none; display:flex; align-items:center;">Clear</a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    <!-- Alumni List -->
+    <div class="card">
+        <div class="card-header">
+            Verified Alumni
+        </div>
+
+        <div class="card-body">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Graduation Year</th>
+                        <th>Company</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for a in alumni %}
+                    <tr>
+                        <td>
+                            <div style="font-weight:600; color:var(--dark);">{{ a.alumni_request.full_name }}</div>
+                            <div style="font-size:12px; color:var(--secondary);">{{ a.alumni_request.roll_no }}</div>
+                        </td>
+                        <td>{{ a.alumni_request.department }}</td>
+                        <td>{{ a.alumni_request.graduation_year }}</td>
+                        <td>{{ a.company|default:"-" }}</td>
+                        <td>
+                            <a href="{% url 'faculty_alumni_chat' a.id %}" class="btn-primary"
+                                style="font-size:13px; padding:6px 12px;">
+                                Chat
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">
+                            {% if query %}
+                            No alumni found matching "{{ query }}"
+                            {% else %}
+                            No verified alumni available yet.
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Counselling Students{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2 class="page-title">Counselling Students</h2>
+
+    <div class="faculty-card">
+
+        <div class="faculty-card-header">
+            Assigned Counselling Students
+        </div>
+
+        <div class="faculty-card-body">
+
+            <table class="faculty-table">
+                <thead>
+                    <tr>
+                        <th>Roll No</th>
+                        <th>Name</th>
+                        <th>Section</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student.roll_no }}</td>
+                        <td>{{ student.user.first_name }}</td>
+                        <td>{{ student.section }}</td>
+                        <td>
+                            <a href="{% url 'faculty_student_detail' student.id %}"
+                               class="view-btn">
+                                View Remarks
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="empty-text">
+                            No counselling students yet
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="back-link">
+        <a href="{% url 'faculty_dashboard' %}">
+            ← Back to Dashboard
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block title %}Student Detail{% endblock %}
+
+{% block content %}
+{% load student_extras %}
+
+<div class="page-container">
+    <div class="page-header">
+        <h2 class="page-title">Student Profile</h2>
+    </div>
+
+    <div class="dashboard-grid">
+
+        <!-- LEFT COLUMN: Profile & Risk -->
+        <aside>
+            <!-- 1. Student Profile Card -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="profile-hero">
+                        <div class="avatar-circle">
+                            {{ student.user.first_name|make_list|first }}
+                        </div>
+                        <h3 style="margin:0; font-size:20px; color:var(--dark);">{{ student.name }}</h3>
+                        <div
+                            style="font-size:14px; color:var(--secondary); background:#f1f5f9; padding:4px 12px; border-radius:20px; display:inline-block; margin-top:6px;">
+                            {{ student.roll_no }}
+                        </div>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">Department</span>
+                        <span class="info-value">{{ student.department }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Section</span>
+                        <span class="info-value">{{ student.section }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Year</span>
+                        <span class="info-value">{{ student.pursuing_year }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. AI Risk Analysis Card -->
+            {% if risk %}
+            <div class="card">
+                <div class="card-header">
+                    <span>🤖 AI Risk Analysis</span>
+                </div>
+                <div class="card-body">
+                    <div class="risk-badge-lg 
+                            {% if risk.risk_level == 'HIGH' %}risk-high-bg
+                            {% elif risk.risk_level == 'MEDIUM' %}risk-med-bg
+                            {% else %}risk-low-bg{% endif %}">
+                        {{ risk.risk_level }} RISK LEVEL
+                    </div>
+
+                    <div
+                        style="margin-top:15px; display:flex; justify-content:space-between; font-size:13px; color:var(--secondary);">
+                        <span>Risk Score</span>
+                        <span style="font-weight:700; color:var(--dark);">{{ risk.risk_score }}%</span>
+                    </div>
+
+                    {% if risk.explanation %}
+                    <div class="explanation-box">
+                        <p class="explanation-text">
+                            {{ risk_message }}
+                        </p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div style="margin-top:20px;">
+                <a href="{% url 'faculty_counselling_students' %}"
+                    style="color:var(--primary); text-decoration:none; font-weight:500;">← Back to List</a>
+            </div>
+        </aside>
+
+        <!-- RIGHT COLUMN: Counselling Remarks -->
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    Counselling Remarks
+                </div>
+                <div class="card-body">
+
+                    <!-- Add Remark Form -->
+                    <form method="post" style="margin-bottom:30px;">
+                        {% csrf_token %}
+                        <textarea name="remark" rows="3" placeholder="Enter counselling remark..." required
+                            style="width:100%; padding:12px; border:1px solid var(--border); border-radius:8px; font-family:inherit; resize:vertical; margin-bottom:10px;"></textarea>
+                        <div style="text-align:right;">
+                            <button type="submit" class="btn-primary">Add Remark</button>
+                        </div>
+                    </form>
+
+                    <div style="border-top:1px solid var(--border); padding-top:20px;">
+                        <h4 style="margin:0 0 15px 0; color:var(--dark);">Previous Remarks</h4>
+
+                        {% for r in remarks %}
+                        <div
+                            style="background:#f8fafc; padding:15px; border-radius:8px; margin-bottom:15px; border-left:3px solid var(--border);">
+                            <div style="font-size:12px; font-weight:700; color:var(--secondary); margin-bottom:5px;">
+                                {{ r.date }}
+                            </div>
+                            <div style="color:var(--text-main); font-size:14px; line-height:1.5;">
+                                {{ r.remark }}
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p style="color:var(--text-muted); font-style:italic; text-align:center;">No remarks added yet.
+                        </p>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+    </div>
+</div>
+
+{% endblock %}

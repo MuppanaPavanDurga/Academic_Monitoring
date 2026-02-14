@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Counselling – Faculty{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2 class="page-title">Select Faculty for Counselling</h2>
+
+    <div class="faculty-card">
+        <div class="faculty-card-header">
+            Faculty List
+        </div>
+
+        <div class="faculty-card-body">
+            {% if faculties %}
+                <table class="faculty-table">
+                    <thead>
+                        <tr>
+                            <th>Faculty Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for faculty in faculties %}
+                        <tr>
+                            <td>{{ faculty.user.username }}</td>
+                            <td>
+                                <a href="{% url 'hod_counselling_students' faculty.id %}"
+                                   class="view-btn">
+                                    View Students
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="empty-text">No faculty available.</p>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

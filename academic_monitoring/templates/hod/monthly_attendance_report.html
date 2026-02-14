@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}Monthly Attendance Report{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2 class="page-title">Monthly Attendance Report (Period Wise)</h2>
+
+    <!-- FILTER FORM -->
+    <div class="faculty-card">
+        <div class="faculty-card-body">
+
+            <form method="get" style="display:flex; gap:10px; flex-wrap:wrap;">
+
+                <input type="text"
+                       name="department"
+                       placeholder="Department"
+                       value="{{ department }}"
+                       required>
+
+                <input type="text"
+                       name="section"
+                       placeholder="Section"
+                       value="{{ section }}"
+                       required>
+
+                <input type="number"
+                       name="month"
+                       placeholder="Month (1–12)"
+                       min="1"
+                       max="12"
+                       value="{{ month }}"
+                       required>
+
+                <input type="number"
+                       name="year"
+                       placeholder="Year"
+                       min="2020"
+                       max="2100"
+                       value="{{ year }}"
+                       required>
+
+                <button class="action-btn">View Report</button>
+
+                {% if students %}
+                <!-- OVERALL CSV -->
+                <a href="?department={{ department }}&section={{ section }}&month={{ month }}&year={{ year }}&download=1"
+                   class="action-btn outline">
+                    Download Overall CSV
+                </a>
+
+                <!-- LOW ATTENDANCE CSV -->
+                <a href="{% url 'low_attendance_csv' %}?department={{ department }}&section={{ section }}&month={{ month }}&year={{ year }}&threshold=75"
+                   class="action-btn outline"
+                   style="border-color:red; color:red;">
+                    Download &lt; 75% CSV
+                </a>
+                {% endif %}
+
+            </form>
+
+        </div>
+    </div>
+
+    {% if students %}
+    <!-- REPORT TABLE -->
+    <div class="faculty-card" style="margin-top:20px;">
+
+        <div class="faculty-card-header">
+            Attendance Summary
+        </div>
+
+        <div class="faculty-card-body">
+            <table class="faculty-table">
+                <thead>
+                    <tr>
+                        <th>Roll No</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Section</th>
+                        <th>Total Periods</th>
+                        <th>Present Periods</th>
+                        <th>Attendance %</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for s in students %}
+                    <tr>
+                        <td>{{ s.roll_no }}</td>
+                        <td>{{ s.user.first_name }}</td>
+                        <td>{{ s.department }}</td>
+                        <td>{{ s.section }}</td>
+                        <td>{{ s.total_periods }}</td>
+                        <td>{{ s.present_periods }}</td>
+                        <td>
+                            <span style="font-weight:bold;
+                                {% if s.percentage >= 75 %}
+                                    color:green;
+                                {% else %}
+                                    color:red;
+                                {% endif %}
+                            ">
+                                {{ s.percentage }} %
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    {% elif department and section and month and year %}
+        <p style="margin-top:20px;">
+            No attendance records found for the selected filters.
+        </p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

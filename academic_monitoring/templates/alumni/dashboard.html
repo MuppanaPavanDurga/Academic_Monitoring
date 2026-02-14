@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Alumni Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+    <div class="page-header">
+        <h2 class="page-title">Alumni Dashboard</h2>
+    </div>
+
+    <div class="dashboard-grid">
+
+        <!-- Profile Card -->
+        <aside>
+            <div class="card">
+                <div class="card-body">
+                    <div class="profile-hero">
+                        <div class="avatar-circle" style="background: linear-gradient(135deg, #10b981, #34d399);">
+                            {{ alumni.alumni_request.full_name|make_list|first }}
+                        </div>
+                        <h3 style="margin:0; font-size:20px; color:var(--dark);">{{ alumni.alumni_request.full_name }}
+                        </h3>
+                        <p style="color:var(--secondary); font-size:14px; margin-top:5px;">Alumni</p>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">Department</span>
+                        <span class="info-value">{{ alumni.alumni_request.department }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Graduation Year</span>
+                        <span class="info-value">{{ alumni.alumni_request.graduation_year }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Company</span>
+                        <span class="info-value">{{ alumni.company|default:"-" }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Role</span>
+                        <span class="info-value">{{ alumni.job_role|default:"-" }}</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Actions -->
+        <main>
+            <div class="dashboard-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+
+                <!-- Chat Inbox -->
+                <div class="card">
+                    <div class="card-body" style="text-align:center;">
+                        <div style="font-size:42px; margin-bottom:15px;">💬</div>
+                        <h4 style="margin:0 0 10px 0;">Student Messages</h4>
+                        <p style="color:var(--secondary); margin-bottom:20px;">Chat with students and offer guidance.
+                        </p>
+                        <a href="{% url 'alumni_inbox' %}" class="btn-primary">
+                            Open Inbox
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Update Profile (Placeholder) -->
+                <!-- You can add more cards here like 'Edit Profile' later -->
+
+            </div>
+        </main>
+
+    </div>
+</div>
+
+{% endblock %}

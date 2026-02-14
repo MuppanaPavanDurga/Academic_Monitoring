@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% block title %}Students List{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Attendance</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background-color: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .page-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .page-title {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #0f172a;
+        }
+
+        /* ================= CARD ================= */
+        .faculty-card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .faculty-card-header {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 14px 22px;
+            font-weight: 600;
+        }
+
+        .faculty-card-body {
+            padding: 22px;
+        }
+
+        /* ================= SUMMARY ================= */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .summary-box {
+            background: #f8fafc;
+            padding: 14px;
+            border-radius: 10px;
+            border-left: 4px solid #2563eb;
+            font-size: 15px;
+        }
+
+        /* ================= TABLE ================= */
+        .attendance-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .attendance-table th {
+            background: #f1f5f9;
+            padding: 10px;
+            font-size: 13px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .attendance-table td {
+            padding: 10px;
+            font-size: 13px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .status-present {
+            color: #166534;
+            font-weight: 600;
+        }
+
+        .status-absent {
+            color: #991b1b;
+            font-weight: 600;
+        }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 900px) {
+            .attendance-table {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page-container">
+
+    <h2 class="page-title">My Period Attendance</h2>
+
+    <!-- SUMMARY -->
+    <div class="faculty-card">
+        <div class="faculty-card-body">
+            <div class="summary-grid">
+                <div class="summary-box">
+                    <b>Total Periods:</b> {{ total_periods }}
+                </div>
+                <div class="summary-box">
+                    <b>Present Periods:</b> {{ present_periods }}
+                </div>
+                <div class="summary-box">
+                    <b>Attendance %:</b>
+                    <span style="font-weight:bold;
+                        {% if percentage >= 75 %}
+                            color:green;
+                        {% else %}
+                            color:red;
+                        {% endif %}
+                    ">
+                        {{ percentage }} %
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DAY-WISE ROW, PERIOD-WISE COLUMNS -->
+    <div class="faculty-card" style="margin-top:25px;">
+        <div class="faculty-card-header">
+            Day-wise Period Attendance
+        </div>
+
+        <div class="faculty-card-body">
+            <table class="attendance-table">
+                <tr>
+                    <th>Date</th>
+                    <th>P1</th>
+                    <th>P2</th>
+                    <th>P3</th>
+                    <th>P4</th>
+                    <th>P5</th>
+                    <th>P6</th>
+                    <th>P7</th>
+                    <th>P8</th>
+                </tr>
+
+                <tbody>
+{% for row in attendance_rows %}
+<tr>
+    <td>{{ row.date }}</td>
+
+    {% for value in row.periods %}
+        <td>
+            {% if value == "P" %}
+                <span class="status-present">P</span>
+            {% elif value == "A" %}
+                <span class="status-absent">A</span>
+            {% else %}
+                <span class="status-empty">-</span>
+            {% endif %}
+        </td>
+    {% endfor %}
+</tr>
+{% endfor %}
+</tbody>
+
+
+
+
+            </table>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
+{% endblock %}
